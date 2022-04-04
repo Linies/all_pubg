@@ -22,9 +22,9 @@ Future<void> deepSearch(DependNode root) async {
 }
 
 Future<void> pubGet(DependNode node) async {
-  var dir = Directory(node.path);
-  if (!dir.existsSync()) return;
-  var res = await Process.run('flutter', ['pub', 'get', (node.path)]);
+  var res = await Process.run(
+      'flutter', ['pub', 'get', (node.path.replaceFirst(RegExp('/'), ''))],
+      workingDirectory: Directory.current.path, runInShell: true);
   if (null != res.stdout) print(res.stdout);
   if (null != res.stderr) print(res.stderr);
 }

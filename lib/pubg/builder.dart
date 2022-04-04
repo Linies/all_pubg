@@ -16,7 +16,9 @@ Future<void> deepSearch(DependNode root) async {
     }
   }
   print('${DateTime.now()} start pub get -------> ${root.path}');
+  if (root.status == Status.affiliate) return;
   await pubGet(root);
+  root.status = Status.finished;
 }
 
 Future<void> pubGet(DependNode node) async {

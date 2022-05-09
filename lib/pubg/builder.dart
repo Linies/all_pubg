@@ -9,7 +9,7 @@ Future<void> build([String? upgrade]) async {
   command = upgrade;
   var packageRoot = Directory.current.path;
   var root = LocalPkgReader(packageRoot).loadSpec();
-  deepSearch(root);
+  await deepSearch(root);
 }
 
 Future<void> deepSearch(DependNode root) async {
@@ -27,8 +27,9 @@ Future<void> deepSearch(DependNode root) async {
 
 Future<void> pubGetOrUpgrade(DependNode node) async {
   var run = command == 'upgrade' ? command : 'get';
-  var res = await Process.run(
-      'flutter', ['pub', '$run', (node.path.replaceFirst(RegExp('/'), ''))],
+  var path = node.path.replaceFirst(RegExp('/'), '');
+  var args = ['pub', '$run', if (path.isNotEmpty) path];
+  var res = await Process.run('flutter', args,
       workingDirectory: Directory.current.path, runInShell: true);
   if (null != res.stdout) print(res.stdout);
   if (null != res.stderr) print(res.stderr);

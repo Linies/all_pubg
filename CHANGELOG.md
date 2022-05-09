@@ -9,3 +9,7 @@
 ## 0.0.3
 
 * feat: 支持flutter pub upgrade
+
+## 0.0.4
+
+* fix: 处理path为空时
